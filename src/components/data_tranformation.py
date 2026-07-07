@@ -69,10 +69,10 @@ class DataTransformation:
 
             target_column_name = "math_score"
 
-            input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
+            input_feature_train_df = train_df.drop(columns=[target_column_name])
             target_feature_train_df = train_df[target_column_name]
 
-            input_feature_test_df = test_df.drop(columns=[target_column_name], axis=1)
+            input_feature_test_df = test_df.drop(columns=[target_column_name])
             target_feature_test_df = test_df[target_column_name]
 
             numerical_columns = input_feature_train_df.select_dtypes(include=[np.number]).columns.tolist()
