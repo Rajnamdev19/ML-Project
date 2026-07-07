@@ -1,5 +1,20 @@
 import sys
+import os
 import logging
+
+# Make sure `src` package (and `src/logger.py`) is importable when running
+# the script directly (python src/exception.py). This inserts the `src`
+# directory on sys.path so `import logger` finds `src/logger.py`.
+project_root = os.getcwd()
+src_path = os.path.join(project_root, "src")
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
+try:
+    import logger  # noqa: F401 - configures logging
+except Exception:
+    # If importing fails, rely on the default logging configuration
+    pass
 
 def error_message_detail(error, error_detail: sys):
     _, _, exc_tb = error_detail.exc_info()
@@ -19,5 +34,5 @@ if __name__ == "__main__":
     try:
         a = 1 / 0
     except Exception as e:
-        logging.info("Division by zero error occurred.")
-        raise CustomException(e, sys)
+        logging.exception("An exception occurred while running the script")
+        raise CustomException(e, sys) from e
